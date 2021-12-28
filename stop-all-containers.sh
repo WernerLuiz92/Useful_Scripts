@@ -9,21 +9,21 @@ ACTIVE_CONTAINERS=($(docker container ls --format="{{.Names}}"));
 QTD_CONTAINERS=${#ACTIVE_CONTAINERS[@]}
 
 if [ $QTD_CONTAINERS -gt 0 ]; then
-	printf "${GREEN}Foram encontrados $QTD_CONTAINERS containers em execução, parando ."
+	printf "${GREEN}Found $QTD_CONTAINERS containers running, stopping . "
 	sleep 0.5
-	printf "."
+	printf ". "
 	sleep 0.5
-	printf "."
+	printf ". "
 	sleep 0.5
-	printf "."
+	printf ". "
 	sleep 0.5
 	printf ".${NO_COLOR}\n"
 
 	docker container stop ${ACTIVE_CONTAINERS[*]}
 
-	printf "${GREEN}Todos os containers que estavam ativos foram parados.${NO_COLOR}\n"
+	printf "${GREEN}All containers that were running were stopped.${NO_COLOR}\n"
 else
-	printf "${RED}Nenhum container ativo foi encontrado.${NO_COLOR}\n"
+	printf "${RED}No running containers were found.${NO_COLOR}\n"
 fi
 
 #end
