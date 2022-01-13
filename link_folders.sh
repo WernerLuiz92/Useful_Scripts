@@ -41,4 +41,4 @@ done
 
 printf "${LIGHT_GREEN}Tudo pronto!! ${NO_COLOR}\n"
 
-#end
+#end of script

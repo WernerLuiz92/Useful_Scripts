@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script needs to be refactored.
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 LIGHT_GREEN='\033[1;32m'
@@ -26,4 +28,4 @@ else
 	printf "${RED}No running containers were found.${NO_COLOR}\n"
 fi
 
-#end
+#end of script
