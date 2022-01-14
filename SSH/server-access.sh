@@ -32,15 +32,28 @@ DEF_KEY_NAME=${CONNECTION_NAME}'_SERVER_KEY'
 DEF_PASSWORD_NAME=${CONNECTION_NAME}'_SERVER_PASSWORD'
 #Variables values
 HOST=$(eval echo '$'$DEF_HOST_NAME)
-PORT=$(eval echo '$'$DEF_PORT_NAME):-22
+PORT=$(eval echo '$'$DEF_PORT_NAME)
+PORT=${PORT:-22}
 USER=$(eval echo '$'$DEF_USER_NAME)
 KEY=$(eval echo '$'$DEF_KEY_NAME)
 PASSWORD=$(eval echo '$'$DEF_PASSWORD_NAME)
 
 if [[ -z $HOST ]]; then
     printf "${LIGHT_RED}The connection name ${CONNECTION_NAME} does not exist.${NO_COLOR}\n"
+    # Perguntar se deseja definir manualmente
+
+    # Definir manualmente
+        # Host
+        # Port
+        # User
+            # Key
+            # Password
+        
+        # Perguntar se deseja salvar
     exit 1
 else
+
+    # Se os dados foram definidos corretamente
     echo "The chosen connection name is: ${CONNECTION_NAME}"
 
     echo "The HOST to the chosen connection is: $HOST"
@@ -49,8 +62,15 @@ else
     echo "The KEY path to the chosen connection is: $KEY"
 
     echo "The SSH command to the chosen connection is: "
+        #definir o comando de conexão
 
-    echo "ssh -i $KEY -p $PORT $USER@$HOST"
+            # Se Key
+                # Testar se o arquivo existe
+                # Verificar se o arquivo tem permissão de 0600
+         echo "ssh -i $KEY -p $PORT $USER@$HOST"
+
+        # Se Password
+        echo "sshpass -p $PASSWORD ssh -p $PORT $USER@$HOST"
 fi
 
 # printf "${GREEN}Informe a pasta que deseja linkar: ${NO_COLOR}\n"
