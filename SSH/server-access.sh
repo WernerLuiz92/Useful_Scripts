@@ -1,9 +1,19 @@
 #!/bin/bash
 
-# This script needs to be completed.
+SCOPE="~/."
 
-export $(grep -v '^#' ~/.env | xargs -d '\n')
-export $(grep -v '^#' ~/.colors.env | xargs -d '\n')
+if [[ ! -f "${SCOPE}env" && ! -f "${SCOPE}colors.env" ]]; then
+    SCOPE="."
+
+    if [[ ! -f "${SCOPE}env" && ! -f "${SCOPE}colors.env" ]]; then
+        printf "ERROR: The script cannot be executed. Environment files were not found.\n" 
+        printf "Check or run the \"link_folders.sh\" script from the repository to initialize.\n\n"
+        exit 0
+    fi
+fi
+
+export $(grep -v '^#' ${SCOPE}env | xargs -d '\n')
+export $(grep -v '^#' ${SCOPE}colors.env | xargs -d '\n')
 
 function getConnectionName() {
     read -p "-> " CONNECTION_NAME
@@ -12,17 +22,17 @@ function getConnectionName() {
 }
 
 function saveConnection() {
-    echo "# ${1} Server SSH Access" >> ~/.env
-    echo "${1}_SERVER_HOST=${2}" >> ~/.env
-    echo "${1}_SERVER_USER=${3}" >> ~/.env
-    echo "${1}_SERVER_PORT=${4}" >> ~/.env
+    echo "# ${1} Server SSH Access" >> ${SCOPE}env
+    echo "${1}_SERVER_HOST=${2}" >> ${SCOPE}env
+    echo "${1}_SERVER_USER=${3}" >> ${SCOPE}env
+    echo "${1}_SERVER_PORT=${4}" >> ${SCOPE}env
     if [[ ${5} != "NULL_VALUE" ]]; then
-        echo "${1}_SERVER_KEY=${5}" >> ~/.env
+        echo "${1}_SERVER_KEY=${5}" >> ${SCOPE}env
     fi
     if [[ ${6} != "NULL_VALUE" ]]; then
-        echo "${1}_SERVER_PASSWORD=${6}" >> ~/.env
+        echo "${1}_SERVER_PASSWORD=${6}" >> ${SCOPE}env
     fi
-    echo "#" >> ~/.env
+    echo "#" >> ${SCOPE}env
 }
 
 function setConnection() {
