@@ -82,6 +82,7 @@ function setConnection() {
         PORT=${PORT:-22}
         USER=$(eval echo '$'$DEF_USER_NAME)
         KEY=$(eval echo '$'$DEF_KEY_NAME)
+        KEY=$(eval echo $KEY)
         PASSWORD=$(eval echo '$'$DEF_PASSWORD_NAME)
     fi
 
