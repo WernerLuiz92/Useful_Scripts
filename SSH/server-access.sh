@@ -1,18 +1,19 @@
 #!/bin/bash
 
-SCOPE="~/."
+SCOPE="$HOME/."
+SCOPE=$(eval echo $SCOPE)
 
-if [[ ! -f "${SCOPE}env" && ! -f "${SCOPE}colors.env" ]]; then
+if [[ ! -f "${SCOPE}scripts.env" && ! -f "${SCOPE}colors.env" ]]; then
     SCOPE="."
 
-    if [[ ! -f "${SCOPE}env" && ! -f "${SCOPE}colors.env" ]]; then
+    if [[ ! -f "${SCOPE}scripts.env" && ! -f "${SCOPE}colors.env" ]]; then
         printf "ERROR: The script cannot be executed. Environment files were not found.\n" 
         printf "Check or run the \"link_folders.sh\" script from the repository to initialize.\n\n"
         exit 0
     fi
 fi
 
-export $(grep -v '^#' ${SCOPE}env | xargs -d '\n')
+export $(grep -v '^#' ${SCOPE}scripts.env | xargs -d '\n')
 export $(grep -v '^#' ${SCOPE}colors.env | xargs -d '\n')
 
 function getConnectionName() {
@@ -22,17 +23,17 @@ function getConnectionName() {
 }
 
 function saveConnection() {
-    echo "# ${1} Server SSH Access" >> ${SCOPE}env
-    echo "${1}_SERVER_HOST=${2}" >> ${SCOPE}env
-    echo "${1}_SERVER_USER=${3}" >> ${SCOPE}env
-    echo "${1}_SERVER_PORT=${4}" >> ${SCOPE}env
+    echo "# ${1} Server SSH Access" >> ${SCOPE}scripts.env
+    echo "${1}_SERVER_HOST=${2}" >> ${SCOPE}scripts.env
+    echo "${1}_SERVER_USER=${3}" >> ${SCOPE}scripts.env
+    echo "${1}_SERVER_PORT=${4}" >> ${SCOPE}scripts.env
     if [[ ${5} != "NULL_VALUE" ]]; then
-        echo "${1}_SERVER_KEY=${5}" >> ${SCOPE}env
+        echo "${1}_SERVER_KEY=${5}" >> ${SCOPE}scripts.env
     fi
     if [[ ${6} != "NULL_VALUE" ]]; then
-        echo "${1}_SERVER_PASSWORD=${6}" >> ${SCOPE}env
+        echo "${1}_SERVER_PASSWORD=${6}" >> ${SCOPE}scripts.env
     fi
-    echo "#" >> ${SCOPE}env
+    echo "#" >> ${SCOPE}scripts.env
 }
 
 function setConnection() {
@@ -92,7 +93,6 @@ function setConnection() {
         PORT=${PORT:-22}
         USER=$(eval echo '$'$DEF_USER_NAME)
         KEY=$(eval echo '$'$DEF_KEY_NAME)
-        KEY=$(eval echo $KEY)
         PASSWORD=$(eval echo '$'$DEF_PASSWORD_NAME)
     fi
 
@@ -123,6 +123,7 @@ fi
 setConnection ${CONNECTION_NAME}
 
 if [[ $KEY ]]; then
+    KEY=$(eval echo $KEY)
     if [ ! -f "$KEY" ]
     then
         printf "${LT_RED_BLD}A Key Não existe no caminho ${YELLOW}${KEY}${LT_RED_BLD}\nPor favor verifique!${NO_COLOR}\n"
