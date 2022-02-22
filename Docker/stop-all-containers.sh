@@ -7,7 +7,8 @@ GREEN='\033[0;32m'
 LIGHT_GREEN='\033[1;32m'
 NO_COLOR='\033[0m'
 
-ACTIVE_CONTAINERS=($(docker container ls --format="{{.Names}}"));
+CONTAINER_NAMES=$(docker container ls --format="{{.Names}}")
+ACTIVE_CONTAINERS=( $CONTAINER_NAMES )
 QTD_CONTAINERS=${#ACTIVE_CONTAINERS[@]}
 
 if [ $QTD_CONTAINERS -gt 0 ]; then
