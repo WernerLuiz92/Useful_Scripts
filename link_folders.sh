@@ -5,7 +5,11 @@
 export $(grep -v '^#' .colors.env | xargs -d '\n')
 
 ENVFILES=($(find . -type f -name "*.env" -not -name ".example.env";))
+# Pega todos os arquivos .sh
 SCRIPTS=($(find . -type f -name "*.sh" -not -name "link_folders.sh";))
+# Adiciona aos SCRIPTS os arquivos .py
+SCRIPTS+=($(find . -type f -name "*.py";))
+
 FOLDERS=($(find . -type d -not -path "./.git/**" -not -path "./.git" -not -path ".";))
 HOME=/home/$(echo $USER)
 
